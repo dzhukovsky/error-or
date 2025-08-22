@@ -31,7 +31,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
 
     public IReadOnlyList<Error> Errors { get; }
 
-    public Error? FirstError => IsError ? Errors[0] : null;
+    public Error FirstError => IsError ? Errors[0] : default;
 
     [MemberNotNullWhen(false, nameof(Value))]
     [MemberNotNullWhen(true, nameof(FirstError))]

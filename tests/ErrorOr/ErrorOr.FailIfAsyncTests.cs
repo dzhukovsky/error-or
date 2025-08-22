@@ -19,7 +19,7 @@ public class FailIfAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError?.Type.Should().Be(ErrorType.Failure);
+        result.FirstError.Type.Should().Be(ErrorType.Failure);
     }
 
     [Fact]
@@ -35,7 +35,7 @@ public class FailIfAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError?.Type.Should().Be(ErrorType.Failure);
+        result.FirstError.Type.Should().Be(ErrorType.Failure);
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class FailIfAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError?.Type.Should().Be(ErrorType.NotFound);
+        result.FirstError.Type.Should().Be(ErrorType.NotFound);
     }
 
     [Fact]
@@ -80,8 +80,8 @@ public class FailIfAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError?.Type.Should().Be(ErrorType.Failure);
-        result.FirstError?.Description.Should().Be("5 is greater than 3.");
+        result.FirstError.Type.Should().Be(ErrorType.Failure);
+        result.FirstError.Description.Should().Be("5 is greater than 3.");
     }
 
     [Fact]
@@ -97,8 +97,8 @@ public class FailIfAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError?.Type.Should().Be(ErrorType.Failure);
-        result.FirstError?.Description.Should().Be("5 is greater than 3.");
+        result.FirstError.Type.Should().Be(ErrorType.Failure);
+        result.FirstError.Description.Should().Be("5 is greater than 3.");
     }
 
     [Fact]
@@ -128,6 +128,6 @@ public class FailIfAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError?.Type.Should().Be(ErrorType.NotFound);
+        result.FirstError.Type.Should().Be(ErrorType.NotFound);
     }
 }

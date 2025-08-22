@@ -87,7 +87,7 @@ public class ElseAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError?.Type.Should().Be(ErrorType.Unexpected);
+        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -121,7 +121,7 @@ public class ElseAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError?.Type.Should().Be(ErrorType.Unexpected);
+        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -155,7 +155,7 @@ public class ElseAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError?.Type.Should().Be(ErrorType.Unexpected);
+        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
     }
 
     [Fact]

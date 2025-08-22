@@ -53,7 +53,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     {
         if (IsError)
         {
-            return onFirstError(FirstError.Value);
+            return onFirstError(FirstError);
         }
 
         return onValue(Value);
@@ -72,7 +72,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     {
         if (IsError)
         {
-            return await onFirstError(FirstError.Value).ConfigureAwait(false);
+            return await onFirstError(FirstError).ConfigureAwait(false);
         }
 
         return await onValue(Value).ConfigureAwait(false);
