@@ -36,10 +36,10 @@ public sealed class ErrorOrEqualityTests
             },
         };
 
-    public static readonly TheoryData<string> Names = new() { "Amichai", "feO2x" };
+    public static readonly TheoryData<string> Names = new() { "Dmitry", "feO2x" };
 
     public static readonly TheoryData<string, string> DifferentNames =
-        new() { { "Amichai", "feO2x" }, { "Tyrion", "Cersei" } };
+        new() { { "Dmitry", "feO2x" }, { "Tyrion", "Cersei" } };
 
     [Fact]
     public void Equals_WhenTwoInstancesHaveTheSameErrorsCollection_ShouldReturnTrue()

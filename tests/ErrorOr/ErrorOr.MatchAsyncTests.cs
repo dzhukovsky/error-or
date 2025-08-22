@@ -11,7 +11,7 @@ public class MatchAsyncTests
     public async Task CallingMatchAsync_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         Task<string> ThenAction(Person person)
         {
             person.Should().BeEquivalentTo(errorOrPerson.Value);
@@ -55,7 +55,7 @@ public class MatchAsyncTests
     public async Task CallingMatchFirstAsync_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         Task<string> ThenAction(Person person)
         {
             person.Should().BeEquivalentTo(errorOrPerson.Value);

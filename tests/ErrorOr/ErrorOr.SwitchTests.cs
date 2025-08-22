@@ -11,7 +11,7 @@ public class SwitchTests
     public void CallingSwitch_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         void ThenAction(Person person) => person.Should().BeEquivalentTo(errorOrPerson.Value);
         void ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
 
@@ -45,7 +45,7 @@ public class SwitchTests
     public void CallingSwitchFirst_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         void ThenAction(Person person) => person.Should().BeEquivalentTo(errorOrPerson.Value);
         void OnFirstErrorAction(Error _) => throw new Exception("Should not be called");
 
@@ -81,7 +81,7 @@ public class SwitchTests
     public async Task CallingSwitchFirstAfterThenAsync_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         void ThenAction(Person person) => person.Should().BeEquivalentTo(errorOrPerson.Value);
         void OnFirstErrorAction(Error _) => throw new Exception("Should not be called");
 
@@ -98,7 +98,7 @@ public class SwitchTests
     public async Task CallingSwitchAfterThenAsync_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         void ThenAction(Person person) => person.Should().BeEquivalentTo(errorOrPerson.Value);
         void ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
 

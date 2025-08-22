@@ -4,10 +4,11 @@
 
 [![NuGet](https://img.shields.io/nuget/v/erroror.svg)](https://www.nuget.org/packages/erroror)
 
-[![Build](https://github.com/amantinband/error-or/actions/workflows/build.yml/badge.svg)](https://github.com/amantinband/error-or/actions/workflows/build.yml) [![publish ErrorOr to nuget](https://github.com/amantinband/error-or/actions/workflows/publish.yml/badge.svg)](https://github.com/amantinband/error-or/actions/workflows/publish.yml)
+[![Build](https://github.com/dzhukovsky/error-or/actions/workflows/build.yml/badge.svg)](https://github.com/dzhukovsky/error-or/actions/workflows/build.yml) [![publish ErrorOr to nuget](https://github.com/dzhukovsky/error-or/actions/workflows/publish.yml/badge.svg)](https://github.com/dzhukovsky/error-or/actions/workflows/publish.yml)
 
-[![GitHub contributors](https://img.shields.io/github/contributors/amantinband/error-or)](https://GitHub.com/amantinband/error-or/graphs/contributors/) [![GitHub Stars](https://img.shields.io/github/stars/amantinband/error-or.svg)](https://github.com/amantinband/error-or/stargazers) [![GitHub license](https://img.shields.io/github/license/amantinband/error-or)](https://github.com/amantinband/error-or/blob/main/LICENSE)
-[![codecov](https://codecov.io/gh/amantinband/error-or/branch/main/graph/badge.svg?token=DR2EBIWK7B)](https://codecov.io/gh/amantinband/error-or)
+[![GitHub contributors](https://img.shields.io/github/contributors/dzhukovsky/error-or)](https://GitHub.com/dzhukovsky/error-or/graphs/contributors/) [![GitHub Stars](https://img.shields.io/github/stars/dzhukovsky/error-or.svg)](https://github.com/dzhukovsky/error-or/stargazers) [![GitHub license](https://img.shields.io/github/license/dzhukovsky/error-or)](https://github.com/dzhukovsky/error-or/blob/main/LICENSE)
+[![codecov](https://codecov.io/gh/dzhukovsky/error-or/branch/main/graph/badge.svg?token=DR2EBIWK7B)](https://codecov.io/gh/dzhukovsky/error-or)
+
 ---
 
 ### A simple, fluent discriminated union of an error or a result.
@@ -16,55 +17,55 @@
 
 </div>
 
-- [Give it a star ⭐!](#give-it-a-star-)
-- [Getting Started 🏃](#getting-started-)
-  - [Replace throwing exceptions with `ErrorOr<T>`](#replace-throwing-exceptions-with-errorort)
-  - [Support For Multiple Errors](#support-for-multiple-errors)
-  - [Various Functional Methods and Extension Methods](#various-functional-methods-and-extension-methods)
-    - [Real world example](#real-world-example)
-    - [Simple Example with intermediate steps](#simple-example-with-intermediate-steps)
-      - [No Failure](#no-failure)
-      - [Failure](#failure)
-- [Creating an `ErrorOr` instance](#creating-an-erroror-instance)
-  - [Using implicit conversion](#using-implicit-conversion)
-  - [Using The `ErrorOrFactory`](#using-the-errororfactory)
-  - [Using The `ToErrorOr` Extension Method](#using-the-toerroror-extension-method)
-- [Properties](#properties)
-  - [`IsError`](#iserror)
-  - [`Value`](#value)
-  - [`Errors`](#errors)
-  - [`FirstError`](#firsterror)
-  - [`ErrorsOrEmptyList`](#errorsoremptylist)
-- [Methods](#methods)
-  - [`Match`](#match)
-    - [`Match`](#match-1)
-    - [`MatchAsync`](#matchasync)
-    - [`MatchFirst`](#matchfirst)
-    - [`MatchFirstAsync`](#matchfirstasync)
-  - [`Switch`](#switch)
-    - [`Switch`](#switch-1)
-    - [`SwitchAsync`](#switchasync)
-    - [`SwitchFirst`](#switchfirst)
-    - [`SwitchFirstAsync`](#switchfirstasync)
-  - [`Then`](#then)
-    - [`Then`](#then-1)
-    - [`ThenAsync`](#thenasync)
-    - [`ThenDo` and `ThenDoAsync`](#thendo-and-thendoasync)
-    - [Mixing `Then`, `ThenDo`, `ThenAsync`, `ThenDoAsync`](#mixing-then-thendo-thenasync-thendoasync)
-  - [`FailIf`](#failif)
-  - [`Else`](#else)
-    - [`Else`](#else-1)
-    - [`ElseAsync`](#elseasync)
-- [Mixing Features (`Then`, `FailIf`, `Else`, `Switch`, `Match`)](#mixing-features-then-failif-else-switch-match)
-- [Error Types](#error-types)
-  - [Built in error types](#built-in-error-types)
-  - [Custom error types](#custom-error-types)
-- [Built in result types (`Result.Success`, ..)](#built-in-result-types-resultsuccess-)
-- [Organizing Errors](#organizing-errors)
-- [Mediator + FluentValidation + `ErrorOr` 🤝](#mediator--fluentvalidation--erroror-)
-- [Contribution 🤲](#contribution-)
-- [Credits 🙏](#credits-)
-- [License 🪪](#license-)
+-   [Give it a star ⭐!](#give-it-a-star-)
+-   [Getting Started 🏃](#getting-started-)
+    -   [Replace throwing exceptions with `ErrorOr<T>`](#replace-throwing-exceptions-with-errorort)
+    -   [Support For Multiple Errors](#support-for-multiple-errors)
+    -   [Various Functional Methods and Extension Methods](#various-functional-methods-and-extension-methods)
+        -   [Real world example](#real-world-example)
+        -   [Simple Example with intermediate steps](#simple-example-with-intermediate-steps)
+            -   [No Failure](#no-failure)
+            -   [Failure](#failure)
+-   [Creating an `ErrorOr` instance](#creating-an-erroror-instance)
+    -   [Using implicit conversion](#using-implicit-conversion)
+    -   [Using The `ErrorOrFactory`](#using-the-errororfactory)
+    -   [Using The `ToErrorOr` Extension Method](#using-the-toerroror-extension-method)
+-   [Properties](#properties)
+    -   [`IsError`](#iserror)
+    -   [`Value`](#value)
+    -   [`Errors`](#errors)
+    -   [`FirstError`](#firsterror)
+    -   [`ErrorsOrEmptyList`](#errorsoremptylist)
+-   [Methods](#methods)
+    -   [`Match`](#match)
+        -   [`Match`](#match-1)
+        -   [`MatchAsync`](#matchasync)
+        -   [`MatchFirst`](#matchfirst)
+        -   [`MatchFirstAsync`](#matchfirstasync)
+    -   [`Switch`](#switch)
+        -   [`Switch`](#switch-1)
+        -   [`SwitchAsync`](#switchasync)
+        -   [`SwitchFirst`](#switchfirst)
+        -   [`SwitchFirstAsync`](#switchfirstasync)
+    -   [`Then`](#then)
+        -   [`Then`](#then-1)
+        -   [`ThenAsync`](#thenasync)
+        -   [`ThenDo` and `ThenDoAsync`](#thendo-and-thendoasync)
+        -   [Mixing `Then`, `ThenDo`, `ThenAsync`, `ThenDoAsync`](#mixing-then-thendo-thenasync-thendoasync)
+    -   [`FailIf`](#failif)
+    -   [`Else`](#else)
+        -   [`Else`](#else-1)
+        -   [`ElseAsync`](#elseasync)
+-   [Mixing Features (`Then`, `FailIf`, `Else`, `Switch`, `Match`)](#mixing-features-then-failif-else-switch-match)
+-   [Error Types](#error-types)
+    -   [Built in error types](#built-in-error-types)
+    -   [Custom error types](#custom-error-types)
+-   [Built in result types (`Result.Success`, ..)](#built-in-result-types-resultsuccess-)
+-   [Organizing Errors](#organizing-errors)
+-   [Mediator + FluentValidation + `ErrorOr` 🤝](#mediator--fluentvalidation--erroror-)
+-   [Contribution 🤲](#contribution-)
+-   [Credits 🙏](#credits-)
+-   [License 🪪](#license-)
 
 # Give it a star ⭐!
 
@@ -224,7 +225,6 @@ ErrorOr<string> foo = await "5".ToErrorOr()
         value => value,
         firstError => $"An error occurred: {firstError.Description}"); // An error occurred: Yikes
 ```
-
 
 # Creating an `ErrorOr` instance
 
@@ -392,7 +392,6 @@ The `MatchFirst` method receives two functions, `onValue` and `onError`, `onValu
 
 Unlike `Match`, if the state is error, `MatchFirst`'s `onError` function receives only the first error that occurred, not the entire list of errors.
 
-
 ```cs
 string foo = result.MatchFirst(
     value => value,
@@ -439,7 +438,7 @@ result.SwitchFirst(
     firstError => Console.WriteLine(firstError.Description));
 ```
 
-###  `SwitchFirstAsync`
+### `SwitchFirstAsync`
 
 ```cs
 await result.SwitchFirstAsync(
@@ -622,6 +621,7 @@ var error = Error.Unexpected(
         { "user", user },
     });
 ```
+
 The `ErrorType` enum is a good way to categorize errors.
 
 ## Custom error types
@@ -759,8 +759,8 @@ If you have any questions, comments, or suggestions, please open an issue or cre
 
 # Credits 🙏
 
-- [OneOf](https://github.com/mcintyre321/OneOf/tree/master/OneOf) - An awesome library which provides F# style discriminated unions behavior for C#
+-   [OneOf](https://github.com/mcintyre321/OneOf/tree/master/OneOf) - An awesome library which provides F# style discriminated unions behavior for C#
 
 # License 🪪
 
-This project is licensed under the terms of the [MIT](https://github.com/mantinband/error-or/blob/main/LICENSE) license.
+This project is licensed under the terms of the [MIT](https://github.com/Zhukovsky/error-or/blob/main/LICENSE) license.
