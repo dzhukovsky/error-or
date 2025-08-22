@@ -23,9 +23,9 @@ public static partial class ErrorOrExtensions
     /// </summary>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="errors"/> is null.</exception>
     /// <exception cref="ArgumentException">Thrown when <paramref name="errors" /> is an empty list.</exception>
-    public static ErrorOr<TValue> ToErrorOr<TValue>(this List<Error> errors)
+    public static ErrorOr<TValue> ToErrorOr<TValue>(this IReadOnlyList<Error> errors)
     {
-        return errors;
+        return ErrorOr<TValue>.From(errors);
     }
 
     /// <summary>

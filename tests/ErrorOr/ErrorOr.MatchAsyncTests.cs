@@ -11,7 +11,7 @@ public class MatchAsyncTests
     public async Task CallingMatchAsync_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         Task<string> ThenAction(Person person)
         {
             person.Should().BeEquivalentTo(errorOrPerson.Value);
@@ -55,7 +55,7 @@ public class MatchAsyncTests
     public async Task CallingMatchFirstAsync_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         Task<string> ThenAction(Person person)
         {
             person.Should().BeEquivalentTo(errorOrPerson.Value);
@@ -81,7 +81,7 @@ public class MatchAsyncTests
         Task<string> ThenAction(Person _) => throw new Exception("Should not be called");
         Task<string> OnFirstErrorAction(Error errors)
         {
-            errors.Should().BeEquivalentTo(errorOrPerson.Errors[0])
+            errors.Should().BeEquivalentTo(errorOrPerson.Errors.First())
                 .And.BeEquivalentTo(errorOrPerson.FirstError);
 
             return Task.FromResult("Nice");
@@ -104,7 +104,7 @@ public class MatchAsyncTests
         Task<string> ThenAction(Person _) => throw new Exception("Should not be called");
         Task<string> OnFirstErrorAction(Error errors)
         {
-            errors.Should().BeEquivalentTo(errorOrPerson.Errors[0])
+            errors.Should().BeEquivalentTo(errorOrPerson.Errors.First())
                 .And.BeEquivalentTo(errorOrPerson.FirstError);
 
             return Task.FromResult("Nice");

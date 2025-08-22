@@ -11,7 +11,7 @@ public class MatchTests
     public void CallingMatch_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         string ThenAction(Person person)
         {
             person.Should().BeEquivalentTo(errorOrPerson.Value);
@@ -55,7 +55,7 @@ public class MatchTests
     public void CallingMatchFirst_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         string ThenAction(Person person)
         {
             person.Should().BeEquivalentTo(errorOrPerson.Value);
@@ -100,7 +100,7 @@ public class MatchTests
     public async Task CallingMatchFirstAfterThenAsync_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         string ThenAction(Person person)
         {
             person.Should().BeEquivalentTo(errorOrPerson.Value);
@@ -122,7 +122,7 @@ public class MatchTests
     public async Task CallingMatchAfterThenAsync_WhenIsSuccess_ShouldExecuteThenAction()
     {
         // Arrange
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         string ThenAction(Person person)
         {
             person.Should().BeEquivalentTo(errorOrPerson.Value);

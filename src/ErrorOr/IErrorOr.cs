@@ -5,7 +5,7 @@ public interface IErrorOr<out TValue> : IErrorOr
     /// <summary>
     /// Gets the value.
     /// </summary>
-    TValue Value { get; }
+    TValue? Value { get; }
 }
 
 /// <summary>
@@ -17,9 +17,9 @@ public interface IErrorOr<out TValue> : IErrorOr
 public interface IErrorOr
 {
     /// <summary>
-    /// Gets the list of errors.
+    /// Gets the collection of errors.
     /// </summary>
-    List<Error>? Errors { get; }
+    IReadOnlyList<Error> Errors { get; }
 
     /// <summary>
     /// Gets a value indicating whether the state is error.

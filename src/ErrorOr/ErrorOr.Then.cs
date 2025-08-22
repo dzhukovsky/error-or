@@ -12,7 +12,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     {
         if (IsError)
         {
-            return Errors;
+            return new(Errors);
         }
 
         return onValue(Value);
@@ -27,7 +27,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     {
         if (IsError)
         {
-            return Errors;
+            return new(Errors);
         }
 
         action(Value);
@@ -45,7 +45,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     {
         if (IsError)
         {
-            return Errors;
+            return new(Errors);
         }
 
         return onValue(Value);
@@ -61,7 +61,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     {
         if (IsError)
         {
-            return Errors;
+            return new(Errors);
         }
 
         return await onValue(Value).ConfigureAwait(false);
@@ -76,7 +76,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     {
         if (IsError)
         {
-            return Errors;
+            return new(Errors);
         }
 
         await action(Value).ConfigureAwait(false);
@@ -94,7 +94,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     {
         if (IsError)
         {
-            return Errors;
+            return new(Errors);
         }
 
         return await onValue(Value).ConfigureAwait(false);
