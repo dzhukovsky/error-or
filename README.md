@@ -34,8 +34,7 @@
     -   [`IsError`](#iserror)
     -   [`Value`](#value)
     -   [`Errors`](#errors)
-    -   [`FirstError`](#firsterror)
-    -   [`ErrorsOrEmptyList`](#errorsoremptylist)
+    -   ## [`FirstError`](#firsterror)
 -   [Methods](#methods)
     -   [`Match`](#match)
         -   [`Match`](#match-1)
@@ -348,20 +347,6 @@ if (result.IsError)
     var firstError = result.FirstError; // only the first error that occurred
     Console.WriteLine(firstError == result.Errors[0]); // true
 }
-```
-
-## `ErrorsOrEmptyList`
-
-```cs
-ErrorOr<int> result = User.Create();
-
-if (result.IsError)
-{
-    result.ErrorsOrEmptyList // List<Error> { /* one or more errors */  }
-    return;
-}
-
-result.ErrorsOrEmptyList // List<Error> { }
 ```
 
 # Methods
@@ -763,4 +748,4 @@ If you have any questions, comments, or suggestions, please open an issue or cre
 
 # License 🪪
 
-This project is licensed under the terms of the [MIT](https://github.com/Zhukovsky/error-or/blob/main/LICENSE) license.
+This project is licensed under the terms of the [MIT](https://github.com/dzhukovsky/error-or/blob/main/LICENSE) license.
