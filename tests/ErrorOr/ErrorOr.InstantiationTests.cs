@@ -22,48 +22,6 @@ public class ErrorOrInstantiationTests
     }
 
     [Fact]
-    public void CreateFromFactory_WhenAccessingErrors_ShouldThrow()
-    {
-        // Arrange
-        IEnumerable<string> value = ["value"];
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.From(value);
-
-        // Act
-        Func<List<Error>> errors = () => errorOrPerson.Errors;
-
-        // Assert
-        errors.Should().ThrowExactly<InvalidOperationException>();
-    }
-
-    [Fact]
-    public void CreateFromFactory_WhenAccessingErrorsOrEmptyList_ShouldReturnEmptyList()
-    {
-        // Arrange
-        IEnumerable<string> value = ["value"];
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.From(value);
-
-        // Act
-        List<Error> errors = errorOrPerson.ErrorsOrEmptyList;
-
-        // Assert
-        errors.Should().BeEmpty();
-    }
-
-    [Fact]
-    public void CreateFromFactory_WhenAccessingFirstError_ShouldThrow()
-    {
-        // Arrange
-        IEnumerable<string> value = ["value"];
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.From(value);
-
-        // Act
-        Func<Error> action = () => errorOrPerson.FirstError;
-
-        // Assert
-        action.Should().ThrowExactly<InvalidOperationException>();
-    }
-
-    [Fact]
     public void CreateFromValue_WhenAccessingValue_ShouldReturnValue()
     {
         // Arrange
@@ -75,48 +33,6 @@ public class ErrorOrInstantiationTests
         // Assert
         errorOrPerson.IsError.Should().BeFalse();
         errorOrPerson.Value.Should().BeSameAs(value);
-    }
-
-    [Fact]
-    public void CreateFromValue_WhenAccessingErrors_ShouldThrow()
-    {
-        // Arrange
-        IEnumerable<string> value = ["value"];
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.From(value);
-
-        // Act
-        Func<List<Error>> action = () => errorOrPerson.Errors;
-
-        // Assert
-        action.Should().ThrowExactly<InvalidOperationException>();
-    }
-
-    [Fact]
-    public void CreateFromValue_WhenAccessingErrorsOrEmptyList_ShouldReturnEmptyList()
-    {
-        // Arrange
-        IEnumerable<string> value = ["value"];
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.From(value);
-
-        // Act
-        List<Error> errors = errorOrPerson.ErrorsOrEmptyList;
-
-        // Assert
-        errors.Should().BeEmpty();
-    }
-
-    [Fact]
-    public void CreateFromValue_WhenAccessingFirstError_ShouldThrow()
-    {
-        // Arrange
-        IEnumerable<string> value = ["value"];
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.From(value);
-
-        // Act
-        Func<Error> action = () => errorOrPerson.FirstError;
-
-        // Assert
-        action.Should().ThrowExactly<InvalidOperationException>();
     }
 
     [Fact]
@@ -132,33 +48,6 @@ public class ErrorOrInstantiationTests
     }
 
     [Fact]
-    public void CreateFromErrorList_WhenAccessingErrorsOrEmptyList_ShouldReturnErrorList()
-    {
-        // Arrange
-        List<Error> errors = new() { Error.Validation("User.Name", "Name is too short") };
-        ErrorOr<Person> errorOrPerson = ErrorOr<Person>.From(errors);
-
-        // Act & Assert
-        errorOrPerson.IsError.Should().BeTrue();
-        errorOrPerson.ErrorsOrEmptyList.Should().ContainSingle().Which.Should().Be(errors.Single());
-    }
-
-    [Fact]
-    public void CreateFromErrorList_WhenAccessingValue_ShouldThrowInvalidOperationException()
-    {
-        // Arrange
-        List<Error> errors = new() { Error.Validation("User.Name", "Name is too short") };
-        ErrorOr<Person> errorOrPerson = ErrorOr<Person>.From(errors);
-
-        // Act
-        var act = () => errorOrPerson.Value;
-
-        // Assert
-        act.Should().Throw<InvalidOperationException>()
-           .And.Message.Should().Be("The Value property cannot be accessed when errors have been recorded. Check IsError before accessing Value.");
-    }
-
-    [Fact]
     public void ImplicitCastResult_WhenAccessingResult_ShouldReturnValue()
     {
         // Arrange
@@ -170,30 +59,6 @@ public class ErrorOrInstantiationTests
         // Assert
         errorOr.IsError.Should().BeFalse();
         errorOr.Value.Should().Be(result);
-    }
-
-    [Fact]
-    public void ImplicitCastResult_WhenAccessingErrors_ShouldThrow()
-    {
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
-
-        // Act
-        Func<List<Error>> action = () => errorOrPerson.Errors;
-
-        // Assert
-        action.Should().ThrowExactly<InvalidOperationException>();
-    }
-
-    [Fact]
-    public void ImplicitCastResult_WhenAccessingFirstError_ShouldThrow()
-    {
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
-
-        // Act
-        Func<Error> action = () => errorOrPerson.FirstError;
-
-        // Assert
-        action.Should().ThrowExactly<InvalidOperationException>();
     }
 
     [Fact]
@@ -245,20 +110,6 @@ public class ErrorOrInstantiationTests
         // Assert
         errorOrPerson.IsError.Should().BeTrue();
         errorOrPerson.Errors.Should().ContainSingle().Which.Should().Be(error);
-    }
-
-    [Fact]
-    public void ImplicitCastError_WhenAccessingValue_ShouldThrowInvalidOperationException()
-    {
-        // Arrange
-        ErrorOr<Person> errorOrPerson = Error.Validation("User.Name", "Name is too short");
-
-        // Act
-        var act = () => errorOrPerson.Value;
-
-        // Assert
-        act.Should().Throw<InvalidOperationException>()
-           .And.Message.Should().Be("The Value property cannot be accessed when errors have been recorded. Check IsError before accessing Value.");
     }
 
     [Fact]
@@ -351,7 +202,9 @@ public class ErrorOrInstantiationTests
     public void CreateErrorOr_WhenUsingEmptyConstructor_ShouldThrow()
     {
         // Act
+#pragma warning disable SA1129 // Do not use default value type constructor
         Func<ErrorOr<int>> action = () => new ErrorOr<int>();
+#pragma warning restore SA1129 // Do not use default value type constructor
 
         // Assert
         action.Should().ThrowExactly<InvalidOperationException>();

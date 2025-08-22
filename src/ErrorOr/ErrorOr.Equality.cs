@@ -6,31 +6,31 @@ public readonly partial record struct ErrorOr<TValue>
     {
         if (!IsError)
         {
-            return !other.IsError && EqualityComparer<TValue>.Default.Equals(_value, other._value);
+            return !other.IsError && EqualityComparer<TValue>.Default.Equals(Value, other.Value);
         }
 
-        return other.IsError && CheckIfErrorsAreEqual(_errors, other._errors);
+        return other.IsError && CheckIfErrorsAreEqual(Errors, other.Errors);
     }
 
     public override int GetHashCode()
     {
         if (!IsError)
         {
-            return _value.GetHashCode();
+            return Value.GetHashCode();
         }
 
 #pragma warning disable SA1129 // HashCode needs to be instantiated this way
         var hashCode = new HashCode();
 #pragma warning restore SA1129
-        for (var i = 0; i < _errors.Count; i++)
+        for (var i = 0; i < Errors.Count; i++)
         {
-            hashCode.Add(_errors[i]);
+            hashCode.Add(Errors[i]);
         }
 
         return hashCode.ToHashCode();
     }
 
-    private static bool CheckIfErrorsAreEqual(List<Error> errors1, List<Error> errors2)
+    private static bool CheckIfErrorsAreEqual(IReadOnlyList<Error> errors1, IReadOnlyList<Error> errors2)
     {
         // This method is currently implemented with strict ordering in mind, so the errors
         // of the two lists need to be in the exact same order.

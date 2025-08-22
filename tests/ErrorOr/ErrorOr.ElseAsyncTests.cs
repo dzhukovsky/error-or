@@ -87,7 +87,7 @@ public class ElseAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
+        result.FirstError?.Type.Should().Be(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -121,7 +121,7 @@ public class ElseAsyncTests
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
+        result.FirstError?.Type.Should().Be(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -151,11 +151,11 @@ public class ElseAsyncTests
         ErrorOr<string> result = await errorOrString
             .ThenAsync(Convert.ToIntAsync)
             .ThenAsync(Convert.ToStringAsync)
-            .ElseAsync(errors => Task.FromResult(new List<Error> { Error.Unexpected() }));
+            .ElseAsync(errors => Task.FromResult<IReadOnlyList<Error>>([Error.Unexpected()]));
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
+        result.FirstError?.Type.Should().Be(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -168,7 +168,7 @@ public class ElseAsyncTests
         ErrorOr<string> result = await errorOrString
             .ThenAsync(Convert.ToIntAsync)
             .ThenAsync(Convert.ToStringAsync)
-            .ElseAsync(errors => Task.FromResult(new List<Error> { Error.Unexpected() }));
+            .ElseAsync(errors => Task.FromResult<IReadOnlyList<Error>>([Error.Unexpected()]));
 
         // Assert
         result.IsError.Should().BeFalse();
