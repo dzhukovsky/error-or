@@ -1,6 +1,3 @@
-using ErrorOr;
-using FluentAssertions;
-
 namespace Tests;
 
 public class FailIfTests
@@ -16,8 +13,8 @@ public class FailIfTests
             .FailIf(num => num > 3, Error.Failure());
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Failure);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.Failure);
     }
 
     [Fact]
@@ -32,8 +29,8 @@ public class FailIfTests
             .FailIf(num => num > 3, Error.Failure());
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Failure);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.Failure);
     }
 
     [Fact]
@@ -47,8 +44,8 @@ public class FailIfTests
             .FailIf(num => num > 10, Error.Failure());
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().Be(5);
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe(5);
     }
 
     [Fact]
@@ -62,8 +59,8 @@ public class FailIfTests
             .FailIf(str => str == string.Empty, Error.Failure());
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.NotFound);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.NotFound);
     }
 
     [Fact]
@@ -77,9 +74,9 @@ public class FailIfTests
             .FailIf(num => num > 3, (num) => Error.Failure(description: $"{num} is greater than 3"));
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Failure);
-        result.FirstError.Description.Should().Be("5 is greater than 3");
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.Failure);
+        result.FirstError.Description.ShouldBe("5 is greater than 3");
     }
 
     [Fact]
@@ -94,9 +91,9 @@ public class FailIfTests
             .FailIf(num => num > 3, (num) => Error.Failure(description: $"{num} is greater than 3"));
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Failure);
-        result.FirstError.Description.Should().Be("5 is greater than 3");
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.Failure);
+        result.FirstError.Description.ShouldBe("5 is greater than 3");
     }
 
     [Fact]
@@ -110,8 +107,8 @@ public class FailIfTests
             .FailIf(num => num > 10, (num) => Error.Failure(description: $"{num} is greater than 10"));
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().Be(5);
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe(5);
     }
 
     [Fact]
@@ -125,7 +122,7 @@ public class FailIfTests
             .FailIf(num => num > 3, (num) => Error.Failure(description: $"{num} is greater than 3"));
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.NotFound);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.NotFound);
     }
 }
