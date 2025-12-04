@@ -26,7 +26,7 @@ public class ErrorOrInstantiationTests
         ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
 
         // Act & Assert
-        errorOrPerson.FirstError.ShouldBeNull();
+        errorOrPerson.FirstError.ShouldBe(default);
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class ErrorOrInstantiationTests
         ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
 
         // Act & Assert
-        errorOrPerson.FirstError.ShouldBeNull();
+        errorOrPerson.FirstError.ShouldBe(default);
     }
 
     [Fact]
@@ -116,7 +116,7 @@ public class ErrorOrInstantiationTests
     [Fact]
     public void ImplicitCastResult_WhenAccessingErrors_ShouldReturnEmptyList()
     {
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
 
         // Act & Assert
         errorOrPerson.Errors.ShouldBeEmpty();
@@ -125,10 +125,10 @@ public class ErrorOrInstantiationTests
     [Fact]
     public void ImplicitCastResult_WhenAccessingFirstError_ShouldReturnNull()
     {
-        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+        ErrorOr<Person> errorOrPerson = new Person("Dmitry");
 
         // Act & Assert
-        errorOrPerson.FirstError.ShouldBeNull();
+        errorOrPerson.FirstError.ShouldBe(default);
     }
 
     [Fact]

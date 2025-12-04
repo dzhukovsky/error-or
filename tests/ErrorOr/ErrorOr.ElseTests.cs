@@ -84,7 +84,7 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -118,7 +118,7 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -152,7 +152,7 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -220,7 +220,7 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -237,7 +237,7 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -254,6 +254,6 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 }

@@ -39,10 +39,9 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     public ImmutableArray<Error> Errors { get; }
 
     /// <summary>Gets the first error or the default value.</summary>
-    public Error? FirstError => IsError ? Errors[0] : null;
+    public Error FirstError => IsError ? Errors[0] : default;
 
     /// <summary>Gets a value indicating whether the result contains errors.</summary>
-    [MemberNotNullWhen(true, nameof(FirstError))]
     [MemberNotNullWhen(false, nameof(Value))]
     public bool IsError => Errors.Length > 0;
 

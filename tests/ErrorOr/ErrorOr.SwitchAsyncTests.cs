@@ -81,7 +81,7 @@ public class SwitchAsyncTests
         {
             errorOrPerson.IsError.ShouldBeTrue();
             errors.ShouldBe(errorOrPerson.Errors[0]);
-            errors.ShouldBe(errorOrPerson.FirstError.Value);
+            errors.ShouldBe(errorOrPerson.FirstError);
             return Task.CompletedTask;
         }
 

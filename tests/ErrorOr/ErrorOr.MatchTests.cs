@@ -82,7 +82,7 @@ public class MatchTests
         {
             errorOrPerson.IsError.ShouldBeTrue();
             errors.ShouldBe(errorOrPerson.Errors[0]);
-            errors.ShouldBe(errorOrPerson.FirstError.Value);
+            errors.ShouldBe(errorOrPerson.FirstError);
 
             return "Nice";
         }

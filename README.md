@@ -341,8 +341,6 @@ if (result.IsError)
 
 ## `FirstError`
 
-The `FirstError` property returns `Error?`. For a successful result, it is `null`. For an error result, it returns the first error that occurred.
-
 ```cs
 ErrorOr<int> result = User.Create();
 

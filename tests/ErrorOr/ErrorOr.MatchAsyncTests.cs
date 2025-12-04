@@ -82,7 +82,7 @@ public class MatchAsyncTests
         {
             errorOrPerson.IsError.ShouldBeTrue();
             errors.ShouldBe(errorOrPerson.Errors.First());
-            errors.ShouldBe(errorOrPerson.FirstError.Value);
+            errors.ShouldBe(errorOrPerson.FirstError);
 
             return Task.FromResult("Nice");
         }
@@ -106,7 +106,7 @@ public class MatchAsyncTests
         {
             errorOrPerson.IsError.ShouldBeTrue();
             errors.ShouldBe(errorOrPerson.Errors.First());
-            errors.ShouldBe(errorOrPerson.FirstError.Value);
+            errors.ShouldBe(errorOrPerson.FirstError);
 
             return Task.FromResult("Nice");
         }
