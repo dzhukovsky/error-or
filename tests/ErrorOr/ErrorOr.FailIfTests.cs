@@ -14,7 +14,7 @@ public class FailIfTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Failure);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Failure);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class FailIfTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Failure);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Failure);
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class FailIfTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.NotFound);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.NotFound);
     }
 
     [Fact]
@@ -75,8 +75,8 @@ public class FailIfTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Failure);
-        result.FirstError.Description.ShouldBe("5 is greater than 3");
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Failure);
+        result.FirstError.Value.Description.ShouldBe("5 is greater than 3");
     }
 
     [Fact]
@@ -92,8 +92,8 @@ public class FailIfTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Failure);
-        result.FirstError.Description.ShouldBe("5 is greater than 3");
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Failure);
+        result.FirstError.Value.Description.ShouldBe("5 is greater than 3");
     }
 
     [Fact]
@@ -123,6 +123,6 @@ public class FailIfTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.NotFound);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.NotFound);
     }
 }

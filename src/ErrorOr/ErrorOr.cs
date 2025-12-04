@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
 namespace ErrorOr;
@@ -10,22 +11,23 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     /// <exception cref="InvalidOperationException">Always thrown.</exception>
     public ErrorOr()
     {
-        throw new InvalidOperationException("Default construction of ErrorOr<TValue> is invalid. Please use provided factory methods to instantiate.");
+        throw new InvalidOperationException($"Default construction of ErrorOr<> is invalid. Please use provided factory methods to instantiate.");
     }
 
-    private ErrorOr(params IReadOnlyList<Error> errors)
+    /// <summary>Create an error result from the specified non-empty error list.</summary>
+    /// <exception cref="ArgumentException">List is empty.</exception>
+    public ErrorOr(params ImmutableArray<Error> errors)
     {
-        ArgumentNullException.ThrowIfNull(errors);
-
-        if (errors.Count == 0)
+        if (errors.Length == 0)
         {
-            throw new ArgumentException("Cannot create an ErrorOr<TValue> from an empty collection of errors. Provide at least one error.", nameof(errors));
+            throw new ArgumentException($"Cannot create an ErrorOr<> from an empty collection of errors. Provide at least one error.", nameof(errors));
         }
 
         Errors = errors;
     }
 
-    private ErrorOr(TValue value)
+    /// <summary>Create a successful result from the specified value.</summary>
+    public ErrorOr(TValue value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
@@ -34,20 +36,16 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     }
 
     /// <summary>Gets the errors when in the error state; empty when successful.</summary>
-    public IReadOnlyList<Error> Errors { get; }
+    public ImmutableArray<Error> Errors { get; }
 
     /// <summary>Gets the first error or the default value.</summary>
-    public Error FirstError => IsError ? Errors[0] : default;
+    public Error? FirstError => IsError ? Errors[0] : null;
 
     /// <summary>Gets a value indicating whether the result contains errors.</summary>
+    [MemberNotNullWhen(true, nameof(FirstError))]
     [MemberNotNullWhen(false, nameof(Value))]
-    public bool IsError => Errors.Count > 0;
+    public bool IsError => Errors.Length > 0;
 
     /// <summary>Gets the value when successful; <c>null</c> when error.</summary>
     public TValue? Value { get; }
-
-    /// <summary>Create an error result from the specified non-empty error list.</summary>
-    /// <exception cref="ArgumentNullException">List is null.</exception>
-    /// <exception cref="ArgumentException">List is empty.</exception>
-    public static ErrorOr<TValue> From(IReadOnlyList<Error> errors) => new(errors);
 }

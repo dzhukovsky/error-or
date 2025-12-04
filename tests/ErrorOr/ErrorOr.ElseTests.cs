@@ -12,7 +12,7 @@ public class ElseTests
         ErrorOr<string> result = errorOrString
             .Then(Convert.ToInt)
             .Then(Convert.ToString)
-            .Else(errors => $"Error count: {errors.Count}");
+            .Else(errors => $"Error count: {errors.Length}");
 
         // Assert
         result.IsError.ShouldBeFalse();
@@ -29,7 +29,7 @@ public class ElseTests
         ErrorOr<string> result = errorOrString
             .Then(Convert.ToInt)
             .Then(Convert.ToString)
-            .Else(errors => $"Error count: {errors.Count}");
+            .Else(errors => $"Error count: {errors.Length}");
 
         // Assert
         result.IsError.ShouldBeFalse();
@@ -84,7 +84,7 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -118,7 +118,7 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -152,7 +152,7 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -199,7 +199,7 @@ public class ElseTests
         ErrorOr<string> result = await errorOrString
             .Then(Convert.ToInt)
             .ThenAsync(Convert.ToStringAsync)
-            .Else(errors => $"Error count: {errors.Count}");
+            .Else(errors => $"Error count: {errors.Length}");
 
         // Assert
         result.IsError.ShouldBeFalse();
@@ -220,7 +220,7 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -237,7 +237,7 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -254,6 +254,6 @@ public class ElseTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
     }
 }

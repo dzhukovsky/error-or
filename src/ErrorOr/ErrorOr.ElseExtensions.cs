@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace ErrorOr;
 
 public static partial class ErrorOrExtensions
@@ -9,7 +11,7 @@ public static partial class ErrorOrExtensions
     /// <param name="errorOr">The <see cref="ErrorOr"/> instance.</param>
     /// <param name="onError">The function to execute if the state is error.</param>
     /// <returns>The result from calling <paramref name="onError"/> if state is error; otherwise the original value.</returns>
-    public static async Task<ErrorOr<TValue>> Else<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<IReadOnlyList<Error>, TValue> onError)
+    public static async Task<ErrorOr<TValue>> Else<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<ImmutableArray<Error>, TValue> onError)
     {
         var result = await errorOr.ConfigureAwait(false);
 
@@ -37,7 +39,7 @@ public static partial class ErrorOrExtensions
     /// <param name="errorOr">The <see cref="ErrorOr"/> instance.</param>
     /// <param name="onError">The function to execute if the state is error.</param>
     /// <returns>The result from calling <paramref name="onError"/> if state is error; otherwise the original value.</returns>
-    public static async Task<ErrorOr<TValue>> ElseAsync<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<IReadOnlyList<Error>, Task<TValue>> onError)
+    public static async Task<ErrorOr<TValue>> ElseAsync<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<ImmutableArray<Error>, Task<TValue>> onError)
     {
         var result = await errorOr.ConfigureAwait(false);
 
@@ -65,7 +67,7 @@ public static partial class ErrorOrExtensions
     /// <param name="errorOr">The <see cref="ErrorOr"/> instance.</param>
     /// <param name="onError">The function to execute if the state is error.</param>
     /// <returns>The result from calling <paramref name="onError"/> if state is error; otherwise the original value.</returns>
-    public static async Task<ErrorOr<TValue>> Else<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<IReadOnlyList<Error>, Error> onError)
+    public static async Task<ErrorOr<TValue>> Else<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<ImmutableArray<Error>, Error> onError)
     {
         var result = await errorOr.ConfigureAwait(false);
 
@@ -79,7 +81,7 @@ public static partial class ErrorOrExtensions
     /// <param name="errorOr">The <see cref="ErrorOr"/> instance.</param>
     /// <param name="onError">The function to execute if the state is error.</param>
     /// <returns>The result from calling <paramref name="onError"/> if state is error; otherwise the original value.</returns>
-    public static async Task<ErrorOr<TValue>> Else<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<IReadOnlyList<Error>, IReadOnlyList<Error>> onError)
+    public static async Task<ErrorOr<TValue>> Else<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<ImmutableArray<Error>, ImmutableArray<Error>> onError)
     {
         var result = await errorOr.ConfigureAwait(false);
 
@@ -107,7 +109,7 @@ public static partial class ErrorOrExtensions
     /// <param name="errorOr">The <see cref="ErrorOr"/> instance.</param>
     /// <param name="onError">The function to execute if the state is error.</param>
     /// <returns>The result from calling <paramref name="onError"/> if state is error; otherwise the original value.</returns>
-    public static async Task<ErrorOr<TValue>> ElseAsync<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<IReadOnlyList<Error>, Task<Error>> onError)
+    public static async Task<ErrorOr<TValue>> ElseAsync<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<ImmutableArray<Error>, Task<Error>> onError)
     {
         var result = await errorOr.ConfigureAwait(false);
 
@@ -121,7 +123,7 @@ public static partial class ErrorOrExtensions
     /// <param name="errorOr">The <see cref="ErrorOr"/> instance.</param>
     /// <param name="onError">The function to execute if the state is error.</param>
     /// <returns>The result from calling <paramref name="onError"/> if state is error; otherwise the original value.</returns>
-    public static async Task<ErrorOr<TValue>> ElseAsync<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<IReadOnlyList<Error>, Task<IReadOnlyList<Error>>> onError)
+    public static async Task<ErrorOr<TValue>> ElseAsync<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<ImmutableArray<Error>, Task<ImmutableArray<Error>>> onError)
     {
         var result = await errorOr.ConfigureAwait(false);
 

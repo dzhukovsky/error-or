@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace Tests;
 
 public class MatchAsyncTests
@@ -15,7 +17,7 @@ public class MatchAsyncTests
             return Task.FromResult("Nice");
         }
 
-        Task<string> ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
+        Task<string> ElsesAction(ImmutableArray<Error> _) => throw new Exception("Should not be called");
 
         // Act
         string result = await errorOrPerson.MatchAsync(
@@ -33,7 +35,7 @@ public class MatchAsyncTests
         ErrorOr<Person> errorOrPerson = new List<Error> { Error.Validation(), Error.Conflict() };
         Task<string> ThenAction(Person _) => throw new Exception("Should not be called");
 
-        Task<string> ElsesAction(IReadOnlyList<Error> errors)
+        Task<string> ElsesAction(ImmutableArray<Error> errors)
         {
             errors.ShouldBe(errorOrPerson.Errors);
             return Task.FromResult("Nice");
@@ -78,8 +80,9 @@ public class MatchAsyncTests
         Task<string> ThenAction(Person _) => throw new Exception("Should not be called");
         Task<string> OnFirstErrorAction(Error errors)
         {
+            errorOrPerson.IsError.ShouldBeTrue();
             errors.ShouldBe(errorOrPerson.Errors.First());
-            errors.ShouldBe(errorOrPerson.FirstError);
+            errors.ShouldBe(errorOrPerson.FirstError.Value);
 
             return Task.FromResult("Nice");
         }
@@ -101,8 +104,9 @@ public class MatchAsyncTests
         Task<string> ThenAction(Person _) => throw new Exception("Should not be called");
         Task<string> OnFirstErrorAction(Error errors)
         {
+            errorOrPerson.IsError.ShouldBeTrue();
             errors.ShouldBe(errorOrPerson.Errors.First());
-            errors.ShouldBe(errorOrPerson.FirstError);
+            errors.ShouldBe(errorOrPerson.FirstError.Value);
 
             return Task.FromResult("Nice");
         }
@@ -123,7 +127,7 @@ public class MatchAsyncTests
         ErrorOr<Person> errorOrPerson = new List<Error> { Error.Validation(), Error.Conflict() };
         Task<string> ThenAction(Person _) => throw new Exception("Should not be called");
 
-        Task<string> ElsesAction(IReadOnlyList<Error> errors)
+        Task<string> ElsesAction(ImmutableArray<Error> errors)
         {
             errors.ShouldBe(errorOrPerson.Errors);
             return Task.FromResult("Nice");

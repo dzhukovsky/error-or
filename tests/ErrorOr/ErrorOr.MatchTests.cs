@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace Tests;
 
 public class MatchTests
@@ -15,7 +17,7 @@ public class MatchTests
             return "Nice";
         }
 
-        string ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
+        string ElsesAction(ImmutableArray<Error> _) => throw new Exception("Should not be called");
 
         // Act
         string result = errorOrPerson.Match(
@@ -33,7 +35,7 @@ public class MatchTests
         ErrorOr<Person> errorOrPerson = new List<Error> { Error.Validation(), Error.Conflict() };
         string ThenAction(Person _) => throw new Exception("Should not be called");
 
-        string ElsesAction(IReadOnlyList<Error> errors)
+        string ElsesAction(ImmutableArray<Error> errors)
         {
             errors.ShouldBe(errorOrPerson.Errors);
             return "Nice";
@@ -78,8 +80,9 @@ public class MatchTests
         string ThenAction(Person _) => throw new Exception("Should not be called");
         string OnFirstErrorAction(Error errors)
         {
+            errorOrPerson.IsError.ShouldBeTrue();
             errors.ShouldBe(errorOrPerson.Errors[0]);
-            errors.ShouldBe(errorOrPerson.FirstError);
+            errors.ShouldBe(errorOrPerson.FirstError.Value);
 
             return "Nice";
         }
@@ -126,7 +129,7 @@ public class MatchTests
             return "Nice";
         }
 
-        string ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
+        string ElsesAction(ImmutableArray<Error> _) => throw new Exception("Should not be called");
 
         // Act
         string result = await errorOrPerson

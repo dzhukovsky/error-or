@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace Tests;
 
 public class ElseAsyncTests
@@ -12,7 +14,7 @@ public class ElseAsyncTests
         ErrorOr<string> result = await errorOrString
             .ThenAsync(Convert.ToIntAsync)
             .ThenAsync(Convert.ToStringAsync)
-            .ElseAsync(errors => Task.FromResult($"Error count: {errors.Count}"));
+            .ElseAsync(errors => Task.FromResult($"Error count: {errors.Length}"));
 
         // Assert
         result.IsError.ShouldBeFalse();
@@ -29,7 +31,7 @@ public class ElseAsyncTests
         ErrorOr<string> result = await errorOrString
             .ThenAsync(Convert.ToIntAsync)
             .ThenAsync(Convert.ToStringAsync)
-            .ElseAsync(errors => Task.FromResult($"Error count: {errors.Count}"));
+            .ElseAsync(errors => Task.FromResult($"Error count: {errors.Length}"));
 
         // Assert
         result.IsError.ShouldBeFalse();
@@ -84,7 +86,7 @@ public class ElseAsyncTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -118,7 +120,7 @@ public class ElseAsyncTests
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -148,11 +150,11 @@ public class ElseAsyncTests
         ErrorOr<string> result = await errorOrString
             .ThenAsync(Convert.ToIntAsync)
             .ThenAsync(Convert.ToStringAsync)
-            .ElseAsync(errors => Task.FromResult<IReadOnlyList<Error>>([Error.Unexpected()]));
+            .ElseAsync(errors => Task.FromResult<ImmutableArray<Error>>([Error.Unexpected()]));
 
         // Assert
         result.IsError.ShouldBeTrue();
-        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
+        result.FirstError.Value.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -165,7 +167,7 @@ public class ElseAsyncTests
         ErrorOr<string> result = await errorOrString
             .ThenAsync(Convert.ToIntAsync)
             .ThenAsync(Convert.ToStringAsync)
-            .ElseAsync(errors => Task.FromResult<IReadOnlyList<Error>>([Error.Unexpected()]));
+            .ElseAsync(errors => Task.FromResult<ImmutableArray<Error>>([Error.Unexpected()]));
 
         // Assert
         result.IsError.ShouldBeFalse();

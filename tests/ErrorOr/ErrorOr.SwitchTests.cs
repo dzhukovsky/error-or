@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace Tests;
 
 public class SwitchTests
@@ -10,7 +12,7 @@ public class SwitchTests
         // Arrange
         ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         void ThenAction(Person person) => person.ShouldBe(errorOrPerson.Value);
-        void ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
+        void ElsesAction(ImmutableArray<Error> _) => throw new Exception("Should not be called");
 
         // Act
         Action action = () => errorOrPerson.Switch(
@@ -27,7 +29,7 @@ public class SwitchTests
         // Arrange
         ErrorOr<Person> errorOrPerson = new List<Error> { Error.Validation(), Error.Conflict() };
         void ThenAction(Person _) => throw new Exception("Should not be called");
-        void ElsesAction(IReadOnlyList<Error> errors) => errors.ShouldBe(errorOrPerson.Errors);
+        void ElsesAction(ImmutableArray<Error> errors) => errors.ShouldBe(errorOrPerson.Errors);
 
         // Act
         Action action = () => errorOrPerson.Switch(
@@ -63,8 +65,9 @@ public class SwitchTests
         void ThenAction(Person _) => throw new Exception("Should not be called");
         void OnFirstErrorAction(Error errors)
         {
+            errorOrPerson.IsError.ShouldBeTrue();
             errors.ShouldBe(errorOrPerson.Errors[0]);
-            errors.ShouldBe(errorOrPerson.FirstError);
+            errors.ShouldBe(errorOrPerson.FirstError.Value);
         }
 
         // Act
@@ -99,7 +102,7 @@ public class SwitchTests
         // Arrange
         ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         void ThenAction(Person person) => person.ShouldBe(errorOrPerson.Value);
-        void ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
+        void ElsesAction(ImmutableArray<Error> _) => throw new Exception("Should not be called");
 
         // Act
         Func<Task> action = () => errorOrPerson

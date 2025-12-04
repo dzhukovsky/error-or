@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace ErrorOr;
 
 public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
@@ -9,7 +11,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     /// </summary>
     /// <param name="onValue">The action to execute if the state is a value.</param>
     /// <param name="onError">The action to execute if the state is an error.</param>
-    public void Switch(Action<TValue> onValue, Action<IReadOnlyList<Error>> onError)
+    public void Switch(Action<TValue> onValue, Action<ImmutableArray<Error>> onError)
     {
         if (IsError)
         {
@@ -28,7 +30,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     /// <param name="onValue">The asynchronous action to execute if the state is a value.</param>
     /// <param name="onError">The asynchronous action to execute if the state is an error.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public async Task SwitchAsync(Func<TValue, Task> onValue, Func<IReadOnlyList<Error>, Task> onError)
+    public async Task SwitchAsync(Func<TValue, Task> onValue, Func<ImmutableArray<Error>, Task> onError)
     {
         if (IsError)
         {
@@ -50,7 +52,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     {
         if (IsError)
         {
-            onFirstError(FirstError);
+            onFirstError(FirstError.Value);
             return;
         }
 
@@ -69,7 +71,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     {
         if (IsError)
         {
-            await onFirstError(FirstError).ConfigureAwait(false);
+            await onFirstError(FirstError.Value).ConfigureAwait(false);
             return;
         }
 

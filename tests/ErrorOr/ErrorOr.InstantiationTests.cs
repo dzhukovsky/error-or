@@ -1,7 +1,5 @@
 namespace Tests;
 
-using ErrorOr;
-
 public class ErrorOrInstantiationTests
 {
     private record Person(string Name);
@@ -13,11 +11,33 @@ public class ErrorOrInstantiationTests
         IEnumerable<string> value = ["value"];
 
         // Act
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.From(value);
+        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
 
         // Assert
         errorOrPerson.IsError.ShouldBeFalse();
         errorOrPerson.Value.ShouldBeSameAs(value);
+    }
+
+    [Fact]
+    public void CreateFromFactory_WhenAccessingFirstError_ShouldReturnNull()
+    {
+        // Arrange
+        IEnumerable<string> value = ["value"];
+        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
+
+        // Act & Assert
+        errorOrPerson.FirstError.ShouldBeNull();
+    }
+
+    [Fact]
+    public void CreateFromFactory_WhenAccessingErrors_ShouldReturnEmptyList()
+    {
+        // Arrange
+        IEnumerable<string> value = ["value"];
+        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
+
+        // Act & Assert
+        errorOrPerson.Errors.ShouldBeEmpty();
     }
 
     [Fact]
@@ -27,7 +47,7 @@ public class ErrorOrInstantiationTests
         IEnumerable<string> value = ["value"];
 
         // Act
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.From(value);
+        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
 
         // Assert
         errorOrPerson.IsError.ShouldBeFalse();
@@ -35,15 +55,48 @@ public class ErrorOrInstantiationTests
     }
 
     [Fact]
+    public void CreateFromValue_WhenAccessingFirstError_ShouldReturnNull()
+    {
+        // Arrange
+        IEnumerable<string> value = ["value"];
+        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
+
+        // Act & Assert
+        errorOrPerson.FirstError.ShouldBeNull();
+    }
+
+    [Fact]
+    public void CreateFromValue_WhenAccessingErrors_ShouldReturnEmptyList()
+    {
+        // Arrange
+        IEnumerable<string> value = ["value"];
+        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
+
+        // Act & Assert
+        errorOrPerson.Errors.ShouldBeEmpty();
+    }
+
+    [Fact]
     public void CreateFromErrorList_WhenAccessingErrors_ShouldReturnErrorList()
     {
         // Arrange
-        List<Error> errors = new() { Error.Validation("User.Name", "Name is too short") };
-        ErrorOr<Person> errorOrPerson = ErrorOr<Person>.From(errors);
+        List<Error> errors = [Error.Validation("User.Name", "Name is too short")];
+        ErrorOr<Person> errorOrPerson = ErrorOrFactory.Create<Person>(errors);
 
         // Act & Assert
         errorOrPerson.IsError.ShouldBeTrue();
         errorOrPerson.Errors.ShouldHaveSingleItem().ShouldBe(errors.Single());
+    }
+
+    [Fact]
+    public void CreateFromErrorList_WhenAccessingValue_ShouldReturnNull()
+    {
+        // Arrange
+        List<Error> errors = [Error.Validation("User.Name", "Name is too short")];
+        ErrorOr<Person> errorOrPerson = ErrorOrFactory.Create<Person>(errors);
+
+        // Act & Assert
+        errorOrPerson.Value.ShouldBeNull();
     }
 
     [Fact]
@@ -58,6 +111,24 @@ public class ErrorOrInstantiationTests
         // Assert
         errorOr.IsError.ShouldBeFalse();
         errorOr.Value.ShouldBe(result);
+    }
+
+    [Fact]
+    public void ImplicitCastResult_WhenAccessingErrors_ShouldReturnEmptyList()
+    {
+        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+
+        // Act & Assert
+        errorOrPerson.Errors.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void ImplicitCastResult_WhenAccessingFirstError_ShouldReturnNull()
+    {
+        ErrorOr<Person> errorOrPerson = new Person("Amichai");
+
+        // Act & Assert
+        errorOrPerson.FirstError.ShouldBeNull();
     }
 
     [Fact]
@@ -112,6 +183,16 @@ public class ErrorOrInstantiationTests
     }
 
     [Fact]
+    public void ImplicitCastError_WhenAccessingValue_ShouldReturnNull()
+    {
+        // Arrange
+        ErrorOr<Person> errorOrPerson = Error.Validation("User.Name", "Name is too short");
+
+        // Act & Assert
+        errorOrPerson.Value.ShouldBeNull();
+    }
+
+    [Fact]
     public void ImplicitCastSingleError_WhenAccessingFirstError_ShouldReturnError()
     {
         // Arrange
@@ -129,18 +210,18 @@ public class ErrorOrInstantiationTests
     public void ImplicitCastErrorList_WhenAccessingErrors_ShouldReturnErrorList()
     {
         // Arrange
-        List<Error> errors = new()
-        {
+        List<Error> errors =
+        [
             Error.Validation("User.Name", "Name is too short"),
             Error.Validation("User.Age", "User is too young"),
-        };
+        ];
 
         // Act
         ErrorOr<Person> errorOrPerson = errors;
 
         // Assert
         errorOrPerson.IsError.ShouldBeTrue();
-        errorOrPerson.Errors.Count.ShouldBe(errors.Count);
+        errorOrPerson.Errors.Length.ShouldBe(errors.Count);
         errorOrPerson.Errors.ShouldBe(errors);
     }
 
@@ -159,7 +240,7 @@ public class ErrorOrInstantiationTests
 
         // Assert
         errorOrPerson.IsError.ShouldBeTrue();
-        errorOrPerson.Errors.Count.ShouldBe(errors.Length);
+        errorOrPerson.Errors.Length.ShouldBe(errors.Length);
         errorOrPerson.Errors.ShouldBe(errors);
     }
 
@@ -167,11 +248,11 @@ public class ErrorOrInstantiationTests
     public void ImplicitCastErrorList_WhenAccessingFirstError_ShouldReturnFirstError()
     {
         // Arrange
-        List<Error> errors = new()
-        {
+        List<Error> errors =
+        [
             Error.Validation("User.Name", "Name is too short"),
             Error.Validation("User.Age", "User is too young"),
-        };
+        ];
 
         // Act
         ErrorOr<Person> errorOrPerson = errors;
@@ -203,9 +284,7 @@ public class ErrorOrInstantiationTests
     public void CreateErrorOr_WhenUsingEmptyConstructor_ShouldThrow()
     {
         // Act & Assert
-#pragma warning disable SA1129 // Do not use default value type constructor
         Should.Throw<InvalidOperationException>(() => { _ = new ErrorOr<int>(); });
-#pragma warning restore SA1129 // Do not use default value type constructor
     }
 
     [Fact]
@@ -213,7 +292,7 @@ public class ErrorOrInstantiationTests
     {
         // Act & Assert
         var exception = Should.Throw<ArgumentException>(() => { ErrorOr<int> errorOr = new List<Error>(); });
-        exception.Message.ShouldBe("Cannot create an ErrorOr<TValue> from an empty collection of errors. Provide at least one error. (Parameter 'errors')");
+        exception.Message.ShouldContain("Cannot create an ErrorOr<> from an empty collection of errors. Provide at least one error.");
         exception.ParamName.ShouldBe("errors");
     }
 
@@ -222,7 +301,7 @@ public class ErrorOrInstantiationTests
     {
         // Act & Assert
         var exception = Should.Throw<ArgumentException>(() => { ErrorOr<int> errorOr = Array.Empty<Error>(); });
-        exception.Message.ShouldBe("Cannot create an ErrorOr<TValue> from an empty collection of errors. Provide at least one error. (Parameter 'errors')");
+        exception.Message.ShouldContain("Cannot create an ErrorOr<> from an empty collection of errors. Provide at least one error.");
         exception.ParamName.ShouldBe("errors");
     }
 

@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace ErrorOr;
 
 public static partial class ErrorOrExtensions
@@ -12,7 +14,7 @@ public static partial class ErrorOrExtensions
     /// <param name="onValue">The action to execute if the state is a value.</param>
     /// <param name="onError">The action to execute if the state is an error.</param>
     /// <returns>The result of the executed function.</returns>
-    public static async Task Switch<TValue>(this Task<ErrorOr<TValue>> errorOr, Action<TValue> onValue, Action<IReadOnlyList<Error>> onError)
+    public static async Task Switch<TValue>(this Task<ErrorOr<TValue>> errorOr, Action<TValue> onValue, Action<ImmutableArray<Error>> onError)
     {
         var result = await errorOr.ConfigureAwait(false);
 
@@ -29,7 +31,7 @@ public static partial class ErrorOrExtensions
     /// <param name="onValue">The action to execute if the state is a value.</param>
     /// <param name="onError">The action to execute if the state is an error.</param>
     /// <returns>The result of the executed function.</returns>
-    public static async Task SwitchAsync<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<TValue, Task> onValue, Func<IReadOnlyList<Error>, Task> onError)
+    public static async Task SwitchAsync<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<TValue, Task> onValue, Func<ImmutableArray<Error>, Task> onError)
     {
         var result = await errorOr.ConfigureAwait(false);
 

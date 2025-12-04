@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace Tests;
 
 public class SwitchAsyncTests
@@ -15,7 +17,7 @@ public class SwitchAsyncTests
             return Task.CompletedTask;
         }
 
-        Task ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
+        Task ElsesAction(ImmutableArray<Error> _) => throw new Exception("Should not be called");
 
         // Act
         Func<Task> action = async () => await errorOrPerson.SwitchAsync(
@@ -32,7 +34,7 @@ public class SwitchAsyncTests
         // Arrange
         ErrorOr<Person> errorOrPerson = new List<Error> { Error.Validation(), Error.Conflict() };
         Task ThenAction(Person _) => throw new Exception("Should not be called");
-        Task ElsesAction(IReadOnlyList<Error> errors)
+        Task ElsesAction(ImmutableArray<Error> errors)
         {
             errors.ShouldBe(errorOrPerson.Errors);
             return Task.CompletedTask;
@@ -77,8 +79,9 @@ public class SwitchAsyncTests
         Task ThenAction(Person _) => throw new Exception("Should not be called");
         Task OnFirstErrorAction(Error errors)
         {
+            errorOrPerson.IsError.ShouldBeTrue();
             errors.ShouldBe(errorOrPerson.Errors[0]);
-            errors.ShouldBe(errorOrPerson.FirstError);
+            errors.ShouldBe(errorOrPerson.FirstError.Value);
             return Task.CompletedTask;
         }
 
@@ -126,7 +129,7 @@ public class SwitchAsyncTests
             return Task.CompletedTask;
         }
 
-        Task ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
+        Task ElsesAction(ImmutableArray<Error> _) => throw new Exception("Should not be called");
 
         // Act
         Func<Task> action = async () => await errorOrPerson

@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace ErrorOr;
 
 public interface IErrorOr<out TValue> : IErrorOr
@@ -19,7 +21,7 @@ public interface IErrorOr
     /// <summary>
     /// Gets the collection of errors.
     /// </summary>
-    IReadOnlyList<Error> Errors { get; }
+    ImmutableArray<Error> Errors { get; }
 
     /// <summary>
     /// Gets a value indicating whether the state is error.
