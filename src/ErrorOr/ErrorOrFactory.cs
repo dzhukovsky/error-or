@@ -1,18 +1,23 @@
+using System.Collections.Immutable;
+
 namespace ErrorOr;
 
-/// <summary>
-/// Provides factory methods for creating instances of <see cref="ErrorOr{TValue}"/>.
-/// </summary>
+/// <summary>Provides factory methods for creating instances of <see cref="ErrorOr{TValue}"/>.</summary>
 public static class ErrorOrFactory
 {
-    /// <summary>
-    /// Creates a new instance of <see cref="ErrorOr{TValue}"/> with a value.
-    /// </summary>
-    /// <typeparam name="TValue">The type of the value.</typeparam>
-    /// <param name="value">The value to wrap.</param>
-    /// <returns>An instance of <see cref="ErrorOr{TValue}"/> containing the provided value.</returns>
-    public static ErrorOr<TValue> From<TValue>(TValue value)
+    /// <summary>Create a successful result from the specified value.</summary>
+    public static ErrorOr<TValue> Create<TValue>(TValue value) => new(value);
+
+    /// <summary>Create an error result from the specified non-empty error list.</summary>
+    /// <exception cref="ArgumentException">List is empty.</exception>
+    public static ErrorOr<TValue> Create<TValue>(ImmutableArray<Error> errors) => new(errors);
+
+    /// <summary>Create an error result from the specified non-empty error list.</summary>
+    /// <exception cref="ArgumentNullException">List is null.</exception>
+    /// <exception cref="ArgumentException">List is empty.</exception>
+    public static ErrorOr<TValue> Create<TValue>(IReadOnlyList<Error> errors)
     {
-        return value;
+        ArgumentNullException.ThrowIfNull(errors);
+        return new([.. errors]);
     }
 }

@@ -1,5 +1,3 @@
-using ErrorOr;
-
 namespace Tests;
 
 public static class Convert
@@ -8,7 +6,7 @@ public static class Convert
 
     public static ErrorOr<int> ToInt(string str) => int.Parse(str);
 
-    public static Task<ErrorOr<int>> ToIntAsync(string str) => Task.FromResult(ErrorOrFactory.From(int.Parse(str)));
+    public static Task<ErrorOr<int>> ToIntAsync(string str) => Task.FromResult(ErrorOrFactory.Create(int.Parse(str)));
 
-    public static Task<ErrorOr<string>> ToStringAsync(int num) => Task.FromResult(ErrorOrFactory.From(num.ToString()));
+    public static Task<ErrorOr<string>> ToStringAsync(int num) => Task.FromResult(ErrorOrFactory.Create(num.ToString()));
 }

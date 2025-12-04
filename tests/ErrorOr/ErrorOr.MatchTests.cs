@@ -1,5 +1,4 @@
-using ErrorOr;
-using FluentAssertions;
+using System.Collections.Immutable;
 
 namespace Tests;
 
@@ -14,19 +13,19 @@ public class MatchTests
         ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         string ThenAction(Person person)
         {
-            person.Should().BeEquivalentTo(errorOrPerson.Value);
+            person.ShouldBe(errorOrPerson.Value);
             return "Nice";
         }
 
-        string ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
+        string ElsesAction(ImmutableArray<Error> _) => throw new Exception("Should not be called");
 
         // Act
-        Func<string> action = () => errorOrPerson.Match(
+        string result = errorOrPerson.Match(
             ThenAction,
             ElsesAction);
 
         // Assert
-        action.Should().NotThrow().Subject.Should().Be("Nice");
+        result.ShouldBe("Nice");
     }
 
     [Fact]
@@ -36,19 +35,19 @@ public class MatchTests
         ErrorOr<Person> errorOrPerson = new List<Error> { Error.Validation(), Error.Conflict() };
         string ThenAction(Person _) => throw new Exception("Should not be called");
 
-        string ElsesAction(IReadOnlyList<Error> errors)
+        string ElsesAction(ImmutableArray<Error> errors)
         {
-            errors.Should().BeEquivalentTo(errorOrPerson.Errors);
+            errors.ShouldBe(errorOrPerson.Errors);
             return "Nice";
         }
 
         // Act
-        Func<string> action = () => errorOrPerson.Match(
+        string result = errorOrPerson.Match(
             ThenAction,
             ElsesAction);
 
         // Assert
-        action.Should().NotThrow().Subject.Should().Be("Nice");
+        result.ShouldBe("Nice");
     }
 
     [Fact]
@@ -58,19 +57,19 @@ public class MatchTests
         ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         string ThenAction(Person person)
         {
-            person.Should().BeEquivalentTo(errorOrPerson.Value);
+            person.ShouldBe(errorOrPerson.Value);
             return "Nice";
         }
 
         string OnFirstErrorAction(Error _) => throw new Exception("Should not be called");
 
         // Act
-        Func<string> action = () => errorOrPerson.MatchFirst(
+        string result = errorOrPerson.MatchFirst(
             ThenAction,
             OnFirstErrorAction);
 
         // Assert
-        action.Should().NotThrow().Subject.Should().Be("Nice");
+        result.ShouldBe("Nice");
     }
 
     [Fact]
@@ -81,19 +80,20 @@ public class MatchTests
         string ThenAction(Person _) => throw new Exception("Should not be called");
         string OnFirstErrorAction(Error errors)
         {
-            errors.Should().BeEquivalentTo(errorOrPerson.Errors[0])
-                .And.BeEquivalentTo(errorOrPerson.FirstError);
+            errorOrPerson.IsError.ShouldBeTrue();
+            errors.ShouldBe(errorOrPerson.Errors[0]);
+            errors.ShouldBe(errorOrPerson.FirstError);
 
             return "Nice";
         }
 
         // Act
-        Func<string> action = () => errorOrPerson.MatchFirst(
+        string result = errorOrPerson.MatchFirst(
             ThenAction,
             OnFirstErrorAction);
 
         // Assert
-        action.Should().NotThrow().Subject.Should().Be("Nice");
+        result.ShouldBe("Nice");
     }
 
     [Fact]
@@ -103,19 +103,19 @@ public class MatchTests
         ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         string ThenAction(Person person)
         {
-            person.Should().BeEquivalentTo(errorOrPerson.Value);
+            person.ShouldBe(errorOrPerson.Value);
             return "Nice";
         }
 
         string OnFirstErrorAction(Error _) => throw new Exception("Should not be called");
 
         // Act
-        Func<Task<string>> action = () => errorOrPerson
+        string result = await errorOrPerson
             .ThenAsync(person => Task.FromResult(person))
             .MatchFirst(ThenAction, OnFirstErrorAction);
 
         // Assert
-        (await action.Should().NotThrowAsync()).Subject.Should().Be("Nice");
+        result.ShouldBe("Nice");
     }
 
     [Fact]
@@ -125,18 +125,18 @@ public class MatchTests
         ErrorOr<Person> errorOrPerson = new Person("Dmitry");
         string ThenAction(Person person)
         {
-            person.Should().BeEquivalentTo(errorOrPerson.Value);
+            person.ShouldBe(errorOrPerson.Value);
             return "Nice";
         }
 
-        string ElsesAction(IReadOnlyList<Error> _) => throw new Exception("Should not be called");
+        string ElsesAction(ImmutableArray<Error> _) => throw new Exception("Should not be called");
 
         // Act
-        Func<Task<string>> action = () => errorOrPerson
+        string result = await errorOrPerson
             .ThenAsync(person => Task.FromResult(person))
             .Match(ThenAction, ElsesAction);
 
         // Assert
-        (await action.Should().NotThrowAsync()).Subject.Should().Be("Nice");
+        result.ShouldBe("Nice");
     }
 }

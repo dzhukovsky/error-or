@@ -2,7 +2,7 @@
 
 <img src="assets/icon.png" alt="drawing" width="700px"/></br>
 
-[![NuGet](https://img.shields.io/nuget/v/erroror.svg)](https://www.nuget.org/packages/erroror)
+[![NuGet](https://img.shields.io/nuget/v/dzhukovsky.erroror.svg)](https://www.nuget.org/packages/dzhukovsky.erroror)
 
 [![Build](https://github.com/dzhukovsky/error-or/actions/workflows/build.yml/badge.svg)](https://github.com/dzhukovsky/error-or/actions/workflows/build.yml) [![publish ErrorOr to nuget](https://github.com/dzhukovsky/error-or/actions/workflows/publish.yml/badge.svg)](https://github.com/dzhukovsky/error-or/actions/workflows/publish.yml)
 
@@ -13,7 +13,7 @@
 
 ### A simple, fluent discriminated union of an error or a result.
 
-`dotnet add package ErrorOr`
+`dotnet add package dzhukovsky.ЕrrorОr`
 
 </div>
 
@@ -326,6 +326,8 @@ if (!result.IsError) // the result contains a value
 ```
 
 ## `Errors`
+
+The `Errors` property returns the collection of errors. For successful results, this collection is empty.
 
 ```cs
 ErrorOr<int> result = User.Create();
@@ -744,6 +746,7 @@ If you have any questions, comments, or suggestions, please open an issue or cre
 
 # Credits 🙏
 
+-   [amantinband/error-or](https://github.com/amantinband/error-or) - This repository is an extended fork of the original ErrorOr library
 -   [OneOf](https://github.com/mcintyre321/OneOf/tree/master/OneOf) - An awesome library which provides F# style discriminated unions behavior for C#
 
 # License 🪪

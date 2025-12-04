@@ -1,6 +1,3 @@
-using ErrorOr;
-using FluentAssertions;
-
 namespace Tests;
 
 public class ElseTests
@@ -15,11 +12,11 @@ public class ElseTests
         ErrorOr<string> result = errorOrString
             .Then(Convert.ToInt)
             .Then(Convert.ToString)
-            .Else(errors => $"Error count: {errors.Count}");
+            .Else(errors => $"Error count: {errors.Length}");
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().BeEquivalentTo(errorOrString.Value);
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe(errorOrString.Value);
     }
 
     [Fact]
@@ -32,11 +29,11 @@ public class ElseTests
         ErrorOr<string> result = errorOrString
             .Then(Convert.ToInt)
             .Then(Convert.ToString)
-            .Else(errors => $"Error count: {errors.Count}");
+            .Else(errors => $"Error count: {errors.Length}");
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().BeEquivalentTo("Error count: 1");
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe("Error count: 1");
     }
 
     [Fact]
@@ -52,8 +49,8 @@ public class ElseTests
             .Else("oh no");
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().BeEquivalentTo(errorOrString.Value);
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe(errorOrString.Value);
     }
 
     [Fact]
@@ -69,8 +66,8 @@ public class ElseTests
             .Else("oh no");
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().BeEquivalentTo("oh no");
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe("oh no");
     }
 
     [Fact]
@@ -86,8 +83,8 @@ public class ElseTests
             .Else(Error.Unexpected());
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -103,8 +100,8 @@ public class ElseTests
             .Else(Error.Unexpected());
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().Be(errorOrString.Value);
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe(errorOrString.Value);
     }
 
     [Fact]
@@ -120,8 +117,8 @@ public class ElseTests
             .Else(errors => Error.Unexpected());
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -137,8 +134,8 @@ public class ElseTests
             .Else(errors => Error.Unexpected());
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().Be(errorOrString.Value);
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe(errorOrString.Value);
     }
 
     [Fact]
@@ -154,8 +151,8 @@ public class ElseTests
             .Else(errors => [Error.Unexpected()]);
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -171,8 +168,8 @@ public class ElseTests
             .Else(errors => [Error.Unexpected()]);
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().Be(errorOrString.Value);
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe(errorOrString.Value);
     }
 
     [Fact]
@@ -188,8 +185,8 @@ public class ElseTests
             .Else("oh no");
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().BeEquivalentTo("oh no");
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe("oh no");
     }
 
     [Fact]
@@ -202,11 +199,11 @@ public class ElseTests
         ErrorOr<string> result = await errorOrString
             .Then(Convert.ToInt)
             .ThenAsync(Convert.ToStringAsync)
-            .Else(errors => $"Error count: {errors.Count}");
+            .Else(errors => $"Error count: {errors.Length}");
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().BeEquivalentTo("Error count: 1");
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe("Error count: 1");
     }
 
     [Fact]
@@ -222,8 +219,8 @@ public class ElseTests
             .Else(Error.Unexpected());
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -239,8 +236,8 @@ public class ElseTests
             .Else(errors => Error.Unexpected());
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 
     [Fact]
@@ -256,7 +253,7 @@ public class ElseTests
             .Else(errors => [Error.Unexpected()]);
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Type.Should().Be(ErrorType.Unexpected);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.Type.ShouldBe(ErrorType.Unexpected);
     }
 }

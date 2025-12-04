@@ -1,6 +1,3 @@
-using ErrorOr;
-using FluentAssertions;
-
 namespace Tests;
 
 public class ToErrorOrTests
@@ -15,8 +12,8 @@ public class ToErrorOrTests
         ErrorOr<int> result = value.ToErrorOr();
 
         // Assert
-        result.IsError.Should().BeFalse();
-        result.Value.Should().Be(value);
+        result.IsError.ShouldBeFalse();
+        result.Value.ShouldBe(value);
     }
 
     [Fact]
@@ -29,8 +26,8 @@ public class ToErrorOrTests
         ErrorOr<int> result = error.ToErrorOr<int>();
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Should().Be(error);
+        result.IsError.ShouldBeTrue();
+        result.FirstError.ShouldBe(error);
     }
 
     [Fact]
@@ -43,8 +40,8 @@ public class ToErrorOrTests
         ErrorOr<int> result = errors.ToErrorOr<int>();
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.Errors.Should().BeEquivalentTo(errors);
+        result.IsError.ShouldBeTrue();
+        result.Errors.ShouldBe(errors);
     }
 
     [Fact]
@@ -54,7 +51,7 @@ public class ToErrorOrTests
 
         ErrorOr<int> result = errors.ToErrorOr<int>();
 
-        result.IsError.Should().BeTrue();
-        result.Errors.Should().Equal(errors);
+        result.IsError.ShouldBeTrue();
+        result.Errors.ShouldBe(errors);
     }
 }

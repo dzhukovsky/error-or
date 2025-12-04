@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace ErrorOr;
 
 public static partial class ErrorOrExtensions
@@ -13,7 +15,7 @@ public static partial class ErrorOrExtensions
     /// <param name="onValue">The function to execute if the state is a value.</param>
     /// <param name="onError">The function to execute if the state is an error.</param>
     /// <returns>The result of the executed function.</returns>
-    public static async Task<TNextValue> Match<TValue, TNextValue>(this Task<ErrorOr<TValue>> errorOr, Func<TValue, TNextValue> onValue, Func<IReadOnlyList<Error>, TNextValue> onError)
+    public static async Task<TNextValue> Match<TValue, TNextValue>(this Task<ErrorOr<TValue>> errorOr, Func<TValue, TNextValue> onValue, Func<ImmutableArray<Error>, TNextValue> onError)
     {
         var result = await errorOr.ConfigureAwait(false);
 
@@ -31,7 +33,7 @@ public static partial class ErrorOrExtensions
     /// <param name="onValue">The function to execute if the state is a value.</param>
     /// <param name="onError">The function to execute if the state is an error.</param>
     /// <returns>The result of the executed function.</returns>
-    public static async Task<TNextValue> MatchAsync<TValue, TNextValue>(this Task<ErrorOr<TValue>> errorOr, Func<TValue, Task<TNextValue>> onValue, Func<IReadOnlyList<Error>, Task<TNextValue>> onError)
+    public static async Task<TNextValue> MatchAsync<TValue, TNextValue>(this Task<ErrorOr<TValue>> errorOr, Func<TValue, Task<TNextValue>> onValue, Func<ImmutableArray<Error>, Task<TNextValue>> onError)
     {
         var result = await errorOr.ConfigureAwait(false);
 
