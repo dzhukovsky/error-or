@@ -16,7 +16,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
 
     /// <summary>Create an error result from the specified non-empty error list.</summary>
     /// <exception cref="ArgumentException">List is empty.</exception>
-    public ErrorOr(params ImmutableArray<Error> errors)
+    internal ErrorOr(ImmutableArray<Error> errors)
     {
         if (errors.Length == 0)
         {
@@ -27,7 +27,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     }
 
     /// <summary>Create a successful result from the specified value.</summary>
-    public ErrorOr(TValue value)
+    internal ErrorOr(TValue value)
     {
         ArgumentNullException.ThrowIfNull(value);
 

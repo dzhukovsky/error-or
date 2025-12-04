@@ -8,7 +8,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     public static implicit operator ErrorOr<TValue>(TValue value) => new(value);
 
     /// <summary>Creates an <see cref="ErrorOr{TValue}"/> from an error.</summary>
-    public static implicit operator ErrorOr<TValue>(Error error) => new(error);
+    public static implicit operator ErrorOr<TValue>(Error error) => new([error]);
 
     /// <summary>Creates an <see cref="ErrorOr{TValue}"/> from a list of errors.</summary>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="errors"/> is null.</exception>
