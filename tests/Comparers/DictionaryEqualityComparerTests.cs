@@ -96,7 +96,7 @@ public class DictionaryEqualityComparerTests
     }
 
     [Fact]
-    public void Equals_UsesCustomKeyComparer_ReturnsFalse()
+    public void Equals_DifferentCasingKeys_ReturnsFalse()
     {
         IReadOnlyDictionary<string, int> x = new Dictionary<string, int> { ["a"] = 1 };
         IReadOnlyDictionary<string, int> y = new Dictionary<string, int> { ["A"] = 1 };
