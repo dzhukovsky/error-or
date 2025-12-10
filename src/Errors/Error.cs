@@ -1,43 +1,42 @@
+using System.Collections.ObjectModel;
+using ErrorOr.Comparers;
+
 namespace ErrorOr;
 
-/// <summary>
-/// Represents an error.
-/// </summary>
+/// <summary>Represents an error.</summary>
 public readonly record struct Error
 {
+    private static readonly DictionaryEqualityComparer<string, object> _metadataComparer =
+        DictionaryEqualityComparer<string, object>.Default;
+
     private Error(string code, string description, ErrorType type, Dictionary<string, object>? metadata)
     {
+        IsDefault = false;
         Code = code;
         Description = description;
         Type = type;
-        NumericType = (int)type;
-        Metadata = metadata;
+
+        if (metadata is { Count: > 0 })
+        {
+            Metadata = metadata.AsReadOnly();
+        }
     }
 
-    /// <summary>
-    /// Gets the unique error code.
-    /// </summary>
+    /// <summary>Gets a value indicating whether this is the default (uninitialized) error instance.</summary>
+    public bool IsDefault { get; } = true;
+
+    /// <summary>Gets the unique error code.</summary>
     public string Code { get; }
 
-    /// <summary>
-    /// Gets the error description.
-    /// </summary>
+    /// <summary>Gets the error description.</summary>
     public string Description { get; }
 
-    /// <summary>
-    /// Gets the error type.
-    /// </summary>
+    /// <summary>Gets the error type.</summary>
     public ErrorType Type { get; }
 
-    /// <summary>
-    /// Gets the numeric value of the type.
-    /// </summary>
-    public int NumericType { get; }
-
-    /// <summary>
-    /// Gets the metadata.
-    /// </summary>
-    public Dictionary<string, object>? Metadata { get; }
+    /// <summary>Gets the metadata.</summary>
+    public IReadOnlyDictionary<string, object> Metadata { get; }
+        = ReadOnlyDictionary<string, object>.Empty;
 
     /// <summary>
     /// Creates an <see cref="Error"/> of type <see cref="ErrorType.Failure"/> from a code and description.
@@ -121,7 +120,7 @@ public readonly record struct Error
         string code = "General.Forbidden",
         string description = "A 'Forbidden' error has occurred.",
         Dictionary<string, object>? metadata = null) =>
-        new(code, description, ErrorType.Forbidden, metadata);
+            new(code, description, ErrorType.Forbidden, metadata);
 
     /// <summary>
     /// Creates an <see cref="Error"/> with the given numeric <paramref name="type"/>,
@@ -138,68 +137,16 @@ public readonly record struct Error
         Dictionary<string, object>? metadata = null) =>
             new(code, description, (ErrorType)type, metadata);
 
+    /// <inheritdoc/>
     public bool Equals(Error other)
-    {
-        if (Type != other.Type ||
-            NumericType != other.NumericType ||
-            Code != other.Code ||
-            Description != other.Description)
-        {
-            return false;
-        }
+        => Type == other.Type
+        && Code == other.Code
+        && Description == other.Description
+        && _metadataComparer.Equals(Metadata, other.Metadata);
 
-        if (Metadata is null)
-        {
-            return other.Metadata is null;
-        }
-
-        return other.Metadata is not null && CompareMetadata(Metadata, other.Metadata);
-    }
-
-    public override int GetHashCode() =>
-        Metadata is null ? HashCode.Combine(Code, Description, Type, NumericType) : ComposeHashCode();
-
-    private int ComposeHashCode()
-    {
-#pragma warning disable SA1129 // HashCode needs to be instantiated this way
-        var hashCode = new HashCode();
-#pragma warning restore SA1129
-
-        hashCode.Add(Code);
-        hashCode.Add(Description);
-        hashCode.Add(Type);
-        hashCode.Add(NumericType);
-
-        foreach (var keyValuePair in Metadata!)
-        {
-            hashCode.Add(keyValuePair.Key);
-            hashCode.Add(keyValuePair.Value);
-        }
-
-        return hashCode.ToHashCode();
-    }
-
-    private static bool CompareMetadata(Dictionary<string, object> metadata, Dictionary<string, object> otherMetadata)
-    {
-        if (ReferenceEquals(metadata, otherMetadata))
-        {
-            return true;
-        }
-
-        if (metadata.Count != otherMetadata.Count)
-        {
-            return false;
-        }
-
-        foreach (var keyValuePair in metadata)
-        {
-            if (!otherMetadata.TryGetValue(keyValuePair.Key, out var otherValue) ||
-                !keyValuePair.Value.Equals(otherValue))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
+    /// <inheritdoc/>
+    public override int GetHashCode()
+        => Metadata.Count == 0
+        ? HashCode.Combine(Type, Code, Description)
+        : HashCode.Combine(Type, Code, Description, _metadataComparer.GetHashCode(Metadata));
 }

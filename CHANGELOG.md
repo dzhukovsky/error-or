@@ -2,6 +2,26 @@
 
 All notable changes to this project are documented in this file.
 
+## [4.0.0] - 2025-12-10
+
+### Breaking Changes
+
+- Removed the `NumericType` property from `Error`; consumers should rely on `ErrorType` directly.
+- `ErrorOr<T>` now throws when constructed with a default or empty `ImmutableArray<Error>`, enforcing that error collections are always non-empty for failure cases.
+
+### Changed
+
+- Refactored `Error` equality and hash code implementations to use `DictionaryEqualityComparer` for `Metadata` comparison and hashing.
+- Added `Error.IsDefault` to distinguish uninitialized error instances from valid errors.
+- Normalized `Error.Metadata` to always be exposed as a read-only dictionary, improving safety and consistency of metadata usage.
+- Improved `IErrorOr` XML documentation and interface contracts for clearer behavior and usage guidance.
+
+### Added
+
+- Introduced `DictionaryEqualityComparer` to provide value-based equality and hash code support for dictionaries.
+- Added comprehensive unit tests for `DictionaryEqualityComparer` covering key/value equality and hash code behavior.
+- Expanded tests for `ErrorOr<T>` instantiation, `ToErrorOr` conversions, and error array handling to validate the new contracts.
+
 ## [3.0.0] - 2025-12-04
 
 ### Added
@@ -22,19 +42,6 @@ All notable changes to this project are documented in this file.
 - All APIs that previously accepted or returned `List<Error>` now use `ImmutableArray<Error>`. Call sites relying on the previous collection types may require adjustments.
 - Public constructors of `ErrorOr<TValue>` were made `internal`. Creating instances should now be done via `ErrorOrFactory`, `ToErrorOr`, or implicit conversions.
 - For successful results, the `Errors` collection no longer contains a special "no error" sentinel item. It is now an empty collection. Code that relied on this sentinel (for example, by assuming `Errors` is always non-empty and contains a "no error" value for success) must be updated to treat an empty `Errors` as the indicator of success.
-
-## [1.10.0] - 2024-02-14
-
-### Added
-
-- `ErrorType.Forbidden`
-- README to NuGet package
-
-## [1.9.0] - 2024-01-06
-
-### Added
-
-- `ToErrorOr`
 
 ## [2.0.0] - 2024-03-26
 
@@ -76,3 +83,16 @@ errorOr.FailIf(x => x > 0, Error.Failure());
 -public static async Task<ErrorOr<TValue>> ThenAsync<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<TValue, Task> action)
 +public static async Task<ErrorOr<TValue>> ThenDoAsync<TValue>(this Task<ErrorOr<TValue>> errorOr, Func<TValue, Task> action)
 ```
+
+## [1.10.0] - 2024-02-14
+
+### Added
+
+- `ErrorType.Forbidden`
+- README to NuGet package
+
+## [1.9.0] - 2024-01-06
+
+### Added
+
+- `ToErrorOr`

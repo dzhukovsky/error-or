@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace Tests;
 
 public class ErrorOrInstantiationTests
@@ -11,7 +13,7 @@ public class ErrorOrInstantiationTests
         IEnumerable<string> value = ["value"];
 
         // Act
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
+        var errorOrPerson = ErrorOrFactory.Create(value);
 
         // Assert
         errorOrPerson.IsError.ShouldBeFalse();
@@ -23,7 +25,7 @@ public class ErrorOrInstantiationTests
     {
         // Arrange
         IEnumerable<string> value = ["value"];
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
+        var errorOrPerson = ErrorOrFactory.Create(value);
 
         // Act & Assert
         errorOrPerson.FirstError.ShouldBe(default);
@@ -34,7 +36,7 @@ public class ErrorOrInstantiationTests
     {
         // Arrange
         IEnumerable<string> value = ["value"];
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
+        var errorOrPerson = ErrorOrFactory.Create(value);
 
         // Act & Assert
         errorOrPerson.Errors.ShouldBeEmpty();
@@ -47,7 +49,7 @@ public class ErrorOrInstantiationTests
         IEnumerable<string> value = ["value"];
 
         // Act
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
+        var errorOrPerson = ErrorOrFactory.Create(value);
 
         // Assert
         errorOrPerson.IsError.ShouldBeFalse();
@@ -59,7 +61,7 @@ public class ErrorOrInstantiationTests
     {
         // Arrange
         IEnumerable<string> value = ["value"];
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
+        var errorOrPerson = ErrorOrFactory.Create(value);
 
         // Act & Assert
         errorOrPerson.FirstError.ShouldBe(default);
@@ -70,7 +72,7 @@ public class ErrorOrInstantiationTests
     {
         // Arrange
         IEnumerable<string> value = ["value"];
-        ErrorOr<IEnumerable<string>> errorOrPerson = ErrorOrFactory.Create(value);
+        var errorOrPerson = ErrorOrFactory.Create(value);
 
         // Act & Assert
         errorOrPerson.Errors.ShouldBeEmpty();
@@ -81,7 +83,7 @@ public class ErrorOrInstantiationTests
     {
         // Arrange
         List<Error> errors = [Error.Validation("User.Name", "Name is too short")];
-        ErrorOr<Person> errorOrPerson = ErrorOrFactory.Create<Person>(errors);
+        var errorOrPerson = ErrorOrFactory.Create<Person>(errors);
 
         // Act & Assert
         errorOrPerson.IsError.ShouldBeTrue();
@@ -93,7 +95,7 @@ public class ErrorOrInstantiationTests
     {
         // Arrange
         List<Error> errors = [Error.Validation("User.Name", "Name is too short")];
-        ErrorOr<Person> errorOrPerson = ErrorOrFactory.Create<Person>(errors);
+        var errorOrPerson = ErrorOrFactory.Create<Person>(errors);
 
         // Act & Assert
         errorOrPerson.Value.ShouldBeNull();
@@ -281,6 +283,43 @@ public class ErrorOrInstantiationTests
     }
 
     [Fact]
+    public void ImplicitCastImmutableArrayOfErrors_WhenAccessingErrors_ShouldReturnErrors()
+    {
+        // Arrange
+        ImmutableArray<Error> errors =
+        [
+            Error.Validation("User.Name", "Name is too short"),
+            Error.Validation("User.Age", "User is too young"),
+        ];
+
+        // Act
+        ErrorOr<Person> errorOrPerson = errors;
+
+        // Assert
+        errorOrPerson.IsError.ShouldBeTrue();
+        errorOrPerson.Errors.Length.ShouldBe(errors.Length);
+        errorOrPerson.Errors.ShouldBe(errors);
+    }
+
+    [Fact]
+    public void ImplicitCastImmutableArrayOfErrors_WhenAccessingFirstError_ShouldReturnFirstError()
+    {
+        // Arrange
+        ImmutableArray<Error> errors =
+        [
+            Error.Validation("User.Name", "Name is too short"),
+            Error.Validation("User.Age", "User is too young"),
+        ];
+
+        // Act
+        ErrorOr<Person> errorOrPerson = errors;
+
+        // Assert
+        errorOrPerson.IsError.ShouldBeTrue();
+        errorOrPerson.FirstError.ShouldBe(errors[0]);
+    }
+
+    [Fact]
     public void CreateErrorOr_WhenUsingEmptyConstructor_ShouldThrow()
     {
         // Act & Assert
@@ -316,6 +355,30 @@ public class ErrorOrInstantiationTests
     public void CreateErrorOr_WhenNullIsPassedAsErrorsArray_ShouldThrowArgumentNullException()
     {
         var exception = Should.Throw<ArgumentNullException>(() => { ErrorOr<int> errorOr = default(Error[])!; });
+        exception.ParamName.ShouldBe("errors");
+    }
+
+    [Fact]
+    public void CreateErrorOr_WhenEmptyImmutableArrayIsUsed_ShouldThrow()
+    {
+        // Arrange
+        ImmutableArray<Error> errors = [];
+
+        // Act & Assert
+        var exception = Should.Throw<ArgumentException>(() => { ErrorOr<int> errorOr = errors; });
+        exception.Message.ShouldContain("Cannot create an ErrorOr<> from an empty collection of errors. Provide at least one error.");
+        exception.ParamName.ShouldBe("errors");
+    }
+
+    [Fact]
+    public void CreateErrorOr_WhenDefaultImmutableArrayIsUsed_ShouldThrow()
+    {
+        // Arrange
+        ImmutableArray<Error> errors = default;
+
+        // Act & Assert
+        var exception = Should.Throw<ArgumentException>(() => { ErrorOr<int> errorOr = errors; });
+        exception.Message.ShouldContain("Cannot create an ErrorOr<> from an empty collection of errors. Provide at least one error.");
         exception.ParamName.ShouldBe("errors");
     }
 
