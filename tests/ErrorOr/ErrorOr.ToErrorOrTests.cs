@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace Tests;
 
 public class ToErrorOrTests
@@ -51,6 +53,20 @@ public class ToErrorOrTests
 
         ErrorOr<int> result = errors.ToErrorOr<int>();
 
+        result.IsError.ShouldBeTrue();
+        result.Errors.ShouldBe(errors);
+    }
+
+    [Fact]
+    public void ImmutableArrayOfErrorsToErrorOr_WhenAccessingErrors_ShouldReturnSameErrors()
+    {
+        // Arrange
+        ImmutableArray<Error> errors = [Error.Unauthorized(), Error.Validation()];
+
+        // Act
+        ErrorOr<int> result = errors.ToErrorOr<int>();
+
+        // Assert
         result.IsError.ShouldBeTrue();
         result.Errors.ShouldBe(errors);
     }

@@ -18,7 +18,7 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
     /// <exception cref="ArgumentException">List is empty.</exception>
     internal ErrorOr(ImmutableArray<Error> errors)
     {
-        if (errors.Length == 0)
+        if (errors.IsDefault || errors.Length == 0)
         {
             throw new ArgumentException($"Cannot create an ErrorOr<> from an empty collection of errors. Provide at least one error.", nameof(errors));
         }
@@ -35,16 +35,16 @@ public readonly partial record struct ErrorOr<TValue> : IErrorOr<TValue>
         Errors = [];
     }
 
-    /// <summary>Gets the errors when in the error state; empty when successful.</summary>
+    /// <inheritdoc/>
     public ImmutableArray<Error> Errors { get; }
 
     /// <summary>Gets the first error or the default value.</summary>
     public Error FirstError => IsError ? Errors[0] : default;
 
-    /// <summary>Gets a value indicating whether the result contains errors.</summary>
+    /// <inheritdoc/>
     [MemberNotNullWhen(false, nameof(Value))]
     public bool IsError => Errors.Length > 0;
 
-    /// <summary>Gets the value when successful; <c>null</c> when error.</summary>
+    /// <inheritdoc/>
     public TValue? Value { get; }
 }

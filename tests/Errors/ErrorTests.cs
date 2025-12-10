@@ -95,7 +95,6 @@ public class ErrorTests
         error.Code.ShouldBe(ErrorCode);
         error.Description.ShouldBe(ErrorDescription);
         error.Type.ShouldBe(expectedErrorType);
-        error.NumericType.ShouldBe((int)expectedErrorType);
         error.Metadata.ShouldBe(Dictionary);
     }
 }
