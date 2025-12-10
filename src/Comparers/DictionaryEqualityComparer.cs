@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace ErrorOr.Comparers;
+namespace ErrorOr;
 
 /// <summary>
 /// Provides an equality comparer for <see cref="IReadOnlyDictionary{TKey, TValue}"/> instances

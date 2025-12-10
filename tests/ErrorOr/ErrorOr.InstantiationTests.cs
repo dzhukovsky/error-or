@@ -365,7 +365,7 @@ public class ErrorOrInstantiationTests
         ImmutableArray<Error> errors = [];
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() => { ErrorOr<int> errorOr = errors; });
+        var exception = Should.Throw<ArgumentException>(() => (ErrorOr<int>)errors);
         exception.Message.ShouldContain("Cannot create an ErrorOr<> from an empty collection of errors. Provide at least one error.");
         exception.ParamName.ShouldBe("errors");
     }
@@ -377,7 +377,7 @@ public class ErrorOrInstantiationTests
         ImmutableArray<Error> errors = default;
 
         // Act & Assert
-        var exception = Should.Throw<ArgumentException>(() => { ErrorOr<int> errorOr = errors; });
+        var exception = Should.Throw<ArgumentException>(() => (ErrorOr<int>)errors);
         exception.Message.ShouldContain("Cannot create an ErrorOr<> from an empty collection of errors. Provide at least one error.");
         exception.ParamName.ShouldBe("errors");
     }
@@ -385,7 +385,7 @@ public class ErrorOrInstantiationTests
     [Fact]
     public void CreateErrorOr_WhenValueIsNull_ShouldThrowArgumentNullException()
     {
-        var exception = Should.Throw<ArgumentNullException>(() => { ErrorOr<int?> errorOr = default(int?); });
+        var exception = Should.Throw<ArgumentNullException>(() => (ErrorOr<int?>)default(int?));
         exception.ParamName.ShouldBe("value");
     }
 }

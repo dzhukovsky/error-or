@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using ErrorOr.Comparers;
 
 namespace ErrorOr;
 

@@ -1,6 +1,4 @@
-using ErrorOr.Comparers;
-
-namespace ErrorOr.Tests.Comparers;
+namespace Tests;
 
 public class DictionaryEqualityComparerTests
 {
