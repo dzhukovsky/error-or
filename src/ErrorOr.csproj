@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <PackageId>dzhukovsky.ErrorOr</PackageId>
-    <Version>4.0.0</Version>
+    <Version>4.0.1</Version>
     <Authors>Dmitry Zhukovsky</Authors>
     <PackageIcon>icon-square.png</PackageIcon>
     <PackageTags>Result,Results,ErrorOr,Error,Handling</PackageTags>
@@ -28,6 +28,10 @@
     <None Include="../README.md" Pack="true" PackagePath="" />
     <None Include="Stylecop.json" />
     <AdditionalFiles Include="Stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNet.ReproducibleBuilds" Version="2.0.2" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

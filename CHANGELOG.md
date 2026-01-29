@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [4.0.1] - 2026-01-29
+
+### Changed
+
+- Enabled reproducible builds via `DotNet.ReproducibleBuilds` package.
+- Upgraded test infrastructure to xUnit v3 (`xunit.v3.mtp-v2`) with modern testing extensions.
+
 ## [4.0.0] - 2025-12-10
 
 ### Breaking Changes
